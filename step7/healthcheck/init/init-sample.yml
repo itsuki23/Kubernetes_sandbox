@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-sample
+spec:
+  containers:
+  - name: main
+    image: ubuntu
+    command: ["/bin/sh"]
+    args: ["-c", "tail -f /dev/null"]
+    volumeMounts:
+    - mountPath: /docs  # 共有ボリュームのマウントポイント
+      name: data-vol
+      readOnly: false
+
+  initContainers:
+  - name: init
+    image: alpine
+    command: ["/bin/sh"]
+    args: ["-c", "mkdir /mnt/html; chown 33:33 /mnt/html"]
+    volumeMounts:
+    - mountPath: /mnt  # 共有ボリュームのマウントポイント
+      name: data-vol
+      readOnly: false
+
+  volumes:             # ポッド上の共有ボリューム
+  - name: data-vol
+    emptyDir: {}
