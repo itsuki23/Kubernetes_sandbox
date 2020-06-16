@@ -267,4 +267,17 @@ spec:
     emptyDir{}
 ```
 
+#### 実行
+- GitHubからpullしたものを反映、表示。
+- 内容を変更してpushしても、数分後には自動でpullして反映。
+```
+$ kubectl apply -f webserver.yml
+$ kubectl get po -o wide
+
+$ kubectl run busybox --image=busybox --restart=Never --rm -it sh
+$ wget -q -O - http://172.....
+
+$ kubectl delete po webserver
+```
+
 
